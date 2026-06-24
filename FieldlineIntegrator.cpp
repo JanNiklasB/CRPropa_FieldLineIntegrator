@@ -36,8 +36,11 @@ FieldlineIntegrator::FieldlineIntegrator(ref_ptr<MagneticField> field, double to
   setDirection(direction);
   }
 
-
-void FieldlineIntegrator::process(Candidate *candidate) const {
+#if CRPROPA_VERSION<=3003000
+	void FieldlineIntegrator::process(crpropa::Candidate* candidate) const{
+#else
+	void FieldlineIntegrator::process(crpropa::ref_ptr<crpropa::Candidate> candidate) const{
+#endif
 
     // save the new previous particle state
 	ParticleState &current = candidate->current;

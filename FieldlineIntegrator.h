@@ -31,13 +31,15 @@ private:
 	    double tolerance; // tolerance is criterion for step adjustment. Step adjustment takes place when the tangential vector of the magnetic field line is calculated.
 	    double direction;
 
-
-
 public:
 	    FieldlineIntegrator(ref_ptr<crpropa::MagneticField> field, double tolerance = 1e-4, 
 	    		    double minStep=(10*pc), double maxStep=(1*kpc), double direction = true);
 
-	    void process(crpropa::Candidate *candidate) const;
+		#if CRPROPA_VERSION<=3003000
+		void process(crpropa::Candidate* candidate) const override;
+        #else
+		void process(crpropa::ref_ptr<crpropa::Candidate> candidate) const override;
+        #endif
 
 	    void tryStep(const Vector3d &Pos, Vector3d &POut, Vector3d &Err, double h ) const;
 
